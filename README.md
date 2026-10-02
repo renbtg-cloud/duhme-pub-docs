@@ -1,4 +1,4 @@
-# Duhme — Reasoning Deeply About Us Humans
+# Duhme — Reasoning Deeply About Us Humans. Without pretending we are simple, static, fully observed, internally transparent, or reducible to the last prompt
 
 **Public Architecture Overview — v0088**
 
@@ -1311,7 +1311,7 @@ Duhme treats these distinctions as durable structure rather than relying on a mo
 
 That is the core idea:
 
-> **Reason deeply about humans without pretending they are simple, static, fully observed, internally transparent, or reducible to the last prompt.**
+> **Reason deeply about humans without pretending we are simple, static, fully observed, internally transparent, or reducible to the last prompt.**
 
 ---
 
