@@ -1,1318 +1,417 @@
-# Duhme — Reasoning Deeply About Us Humans. Without pretending we are simple, static, fully observed, internally transparent, or reducible to the last prompt
-
-**Public Architecture Overview — v0088**
-
-Duhme is a model-agnostic human-context reasoning system.
-
-Its central problem is not producing fluent text. Powerful models already do that well. The harder problem is preserving enough structure around people, relationships, evidence, memory, uncertainty, contradiction, culture and time that fluent reasoning does not quietly turn into invented certainty.
-
-Duhme treats human reality as a bounded epistemic domain: a world in which evidence has provenance, people change, memories are imperfect, relationships matter, interpretations compete, and apparently small events can become important much later.
-
-A useful shorthand is:
-
-> **The human already has meaning. Duhme does the boring work of making that meaning usable by AI.**
-
-Duhme is not primarily a chatbot, prompt improver, sentiment classifier, psychological profiler, CRM, HR system, speech stack or foundation model. It is intended to sit underneath or beside systems that need durable, revisable reasoning about humans and the worlds around them.
-
+---
+title: "Niccolo"
+subtitle: "AI human-context reasoning for software that needs to understand people, relationships and organizations"
+date: "Public Product Overview"
+lang: en
+papersize: a4
+geometry: margin=22mm
+fontsize: 11pt
+toc: true
+toc-depth: 2
+colorlinks: true
+linkcolor: black
+urlcolor: black
 ---
 
-## The architectural problems Duhme is built around
+# Executive summary
 
-Human-context reasoning becomes difficult less because any single observation is complicated than because the surrounding epistemic structure is.
+**Niccolo is AI software: a human-context reasoning system.** It helps software make sense of people, relationships, organizations, conversations, events and changing social context over time. Niccolo can use large language models (LLMs) as reasoning engines, while adding the durable context, evidence discipline, permissions and longitudinal world model that a raw LLM conversation does not provide by itself.
 
-### Evidence is not truth
+Most business software is excellent at storing explicit facts: who the customer is, which opportunity is open, who reports to whom, what message was sent, what meeting happened, what task is overdue. Modern artificial-intelligence systems - especially LLMs - are excellent at reading, generating and reasoning over language. But a large gap remains between those two capabilities: the durable, uncertain, contradictory and constantly changing human world in which those facts acquire meaning.
 
-An email, message, recording, document, event, log entry or user statement is evidence. It is not automatically true.
+Niccolo is built for that gap.
 
-A message saying:
+It can consume permitted evidence from conversations, documents, notes, transcripts, CRM records, collaboration systems and other sources; organize what was observed or claimed; maintain competing interpretations; track relationships and turning points; reason about likely beliefs, incentives and reactions; search for counterevidence; and preserve uncertainty instead of converting every ambiguous signal into a confident score.
 
-> "Maria has already approved this."
+Niccolo is not designed to "read minds." It is designed to reason carefully about what the available evidence may imply, what it does not establish, and what alternative explanations remain plausible.
 
-establishes, at minimum, that someone made that claim. Whether Maria actually approved it is a separate question.
+This makes Niccolo useful as an intelligence layer underneath or beside CRM, sales intelligence, executive coaching, organizational psychology, people analytics, conflict mediation, consulting, collaboration software and other applications in which human context matters.
 
-Duhme therefore keeps apart:
+# What Niccolo is
 
-- source material;
-- observations extracted from source material;
-- claims made by actors or sources;
-- hypotheses that explain patterns;
-- findings supported by some body of evidence;
-- contradictions and counterevidence;
-- confidence, authority and provenance.
+Niccolo is best understood as a **persistent reasoning layer for the human side of a system**.
 
-The distinctions sound obvious. They become surprisingly easy to lose once multiple models, documents, conversations and historical episodes are compressed into one answer.
+It maintains a structured, revisable model of things such as:
 
-### Evidence count is not evidence diversity
+- people and references to people;
+- relationships and how they change;
+- events, episodes and turning points;
+- statements, reports and observations;
+- disagreements and contradictory accounts;
+- hypotheses and alternative explanations;
+- trust, influence, incentives and situational leverage;
+- what one person appears to believe about another;
+- relevant cultural and communication context;
+- uncertainty, missing evidence and known blind spots;
+- corrections, later evidence and changing interpretations.
 
-Ten people can repeat one rumor.
+The important word is **revisable**. Niccolo is not a system that makes one classification and freezes it. A new email may change the interpretation of an old meeting. A corrected identity may alter which evidence belongs to whom. A later event may weaken what had seemed like a strong explanation. Two plausible interpretations may coexist until evidence separates them.
 
-That is not ten independent confirmations.
+Niccolo is therefore closer to a continuously maintained **human-context model** than to a traditional analytics dashboard.
 
-Several reports may share a common origin, quote one another, descend from the same document, or reflect one coordinated narrative. Duhme therefore cares about evidence independence and shared origin, not just the number of matching statements.
+## A simple example
 
-The same distinction matters in the opposite direction. One unpopular claim may be unusually strong if it comes from direct observation, while twenty repetitions may be weak if they all trace back to one source.
+Suppose a CRM says:
 
-### A false claim can still become causally important
+> Dana is VP of Operations. Opportunity value: $2.4M. Last meeting: positive.
 
-Suppose the statement:
+Those facts may all be correct and still omit the information that determines what happens next.
 
-> "The CTO personally backs Alice."
+Niccolo might help a permitted sales application reason that:
 
-is unverified.
+- Dana has formal authority but rarely initiates major purchases;
+- an operations architect with a lower title appears to be the practical technical gatekeeper;
+- the CFO was not in the latest meeting but has blocked similar expenditures before;
+- enthusiasm increased after one product issue was resolved;
+- a previously supportive manager has become quieter after a reorganization;
+- the word "interesting" is usually positive for one stakeholder but politely noncommittal for another;
+- there are two plausible explanations for the silence, and the evidence does not yet distinguish them.
 
-If several managers nevertheless begin routing decisions through Alice, the statement may remain weak evidence of actual sponsorship while becoming strong evidence that people **believe** Alice is sponsored.
+The CRM still owns the opportunity. Niccolo contributes the human-context reasoning around it.
 
-Truth strength and behavioral impact are different dimensions.
+# What Niccolo is not
 
-Human systems often react to perceived capability, perceived alliances, anticipated retaliation, expected approval, reputation and rumor before the underlying claim is verified.
+Niccolo is **not simply another AI chatbot** such as ChatGPT, Claude or Gemini. A chat interface may be one way to use it, but chat is not the product boundary. The durable model of people, evidence, relationships, history, uncertainty and reasoning survives beyond one conversation.
 
-### Humans contradict themselves
+Niccolo is **not a prompt-engineering or LLM wrapper**. Good prompting can improve a single interaction with OpenAI GPT models, Anthropic Claude, Google Gemini or another model. Niccolo addresses a larger problem: acquiring the right context, preserving it over time, separating source material from inference, tracking corrections, handling contradictory evidence, keeping multiple hypotheses alive and deciding what context is relevant now.
 
-People change their minds. They speak differently to different audiences. They sincerely remember events differently. They rationalize. They conceal. They joke. They exaggerate. They obey roles they privately dislike. They can believe mutually uncomfortable things at once.
+Niccolo is **not sentiment analysis**. A positive or negative tone score cannot express that two people are joking harshly because they trust each other, that a polite message is a serious political warning, or that identical words carry different meaning in different relationships.
 
-Duhme treats contradiction as information rather than corruption to normalize away.
+Niccolo is **not a personality test or psychological diagnosis engine**. It may reason about candidate human mechanisms - for example fear, trust, resentment, face-saving, belonging pressure, gratitude, loyalty, status threat or repair motivation - when evidence and purpose justify doing so. These remain hypotheses, not hidden facts or clinical diagnoses.
 
-A person saying one thing in public and another in private does not automatically prove deception. It may reflect audience adaptation, changed beliefs, role obligation, uncertainty, strategic behavior, social pressure, or deception. Several explanations may remain alive until evidence discriminates among them.
+Niccolo is **not a universal "people score."** Influence, power, trust, risk and desirability are relational and situational. A person can have enormous leverage in one decision and almost none in another.
 
-### Internal mechanisms are hypotheses, not mind-reading
+Niccolo is **not a replacement for CRM, HRIS, ERP, collaboration software or consulting practice**. Those systems and professionals retain their own business responsibilities. Niccolo is intended to add human-context intelligence to them.
 
-Fear, shame, status threat, resentment, gratitude, attraction, loyalty, guilt, reciprocity, self-justification, face-saving, reactance and similar mechanisms can help explain human behavior.
+Niccolo is also **not an oracle**. Sparse, biased, adversarial or missing evidence limits what it can know. A central design goal is to expose those limits rather than conceal them behind confident prose.
 
-They are not privileged hidden-state sensors.
+# AI, LLMs and model providers
 
-The architecture allows such mechanisms to exist as competing hypotheses grounded in local evidence and broader human-science knowledge. It does not convert psychological plausibility into fact.
+Niccolo is explicitly an **artificial-intelligence system**, and modern **large language models (LLMs)** are important components of how it can interpret language, generate hypotheses, compare explanations and communicate results.
 
-The same discipline applies to socially attractive explanations. Compassion, gratitude, trust, loyalty and moral courage are not promoted merely because they make a nicer story.
+Niccolo is designed to be **model- and provider-agnostic**. Depending on deployment, policy, cost, latency, privacy and task requirements, a Niccolo-based product can use models from providers such as:
 
-### The scene can be easier to infer than the person
+- **OpenAI**, including GPT-family models commonly encountered through products such as **ChatGPT**;
+- **Anthropic**, including **Claude** models;
+- **Google**, including **Gemini** models;
+- other commercial, open-weight, local or specialized models where they are appropriate.
 
-Duhme follows a deliberately asymmetric principle:
+Those names describe possible AI engines, not Niccolo's identity. Niccolo is not tied conceptually to one vendor, one model family or one chatbot interface. A deployment can route different jobs to different models, replace a model as technology changes, or keep some tasks deterministic and non-LLM-based.
 
-> **Infer the scene aggressively; infer the person conservatively.**
+The division of responsibility is important. An LLM can read text and reason over a supplied context window. Niccolo is responsible for the surrounding system that makes repeated human-context reasoning useful: identity continuity, source provenance, relationship and event history, permissions, corrections, contradictions, alternative hypotheses, missing-evidence state, policy, controlled retrieval and recomputation.
 
-It may be reasonable to conclude that a meeting became tense, that a proposal lost support, or that a faction temporarily aligned around an issue while remaining much more cautious about saying that a specific person is "hostile," "disloyal," "insecure" or permanently motivated by status.
+This is why replacing Claude with a GPT model, or Gemini with another model, does not turn Niccolo into a different product. The model is a powerful cognitive component; Niccolo is the persistent, governed human-context reasoning substrate around it.
 
-Situational interpretation can be useful without hardening temporary behavior into identity.
+ChatGPT, Claude and Gemini are also useful reference points for what Niccolo is **not**. They are general-purpose AI products or model families. Niccolo is specialized software that can use such models while maintaining a structured, longitudinal and auditable human-world model for applications such as CRM, organizational psychology, consulting and stakeholder intelligence.
 
-### People do not exist as isolated `user_id` records
+# Why this is different from ordinary AI software
 
-The meaning of an event often depends on relationship history.
+A frontier LLM - for example an OpenAI GPT model, Anthropic Claude or Google Gemini - can often produce an impressive interpretation when a skilled user supplies the right evidence, explains the background, names the ambiguities, reminds the model of prior events, asks for alternatives and requests counterarguments.
 
-"He did that thing again" may be understandable only because earlier episodes establish who "he" usually denotes in this context and what "that thing" probably refers to.
+Most users do not want to become expert prompt engineers just to obtain that result repeatedly.
 
-A blunt refusal can mean something different between strangers, old friends, rivals, spouses, colleagues or a supplier and customer who have negotiated for ten years.
+Niccolo turns much of that burden into software.
 
-Duhme therefore treats people, references, relationships, episodes and histories as first-class reasoning material rather than decorating isolated user records with a few profile fields.
+## Persistent human context
 
-### Identity itself is revisable
+Ordinary model conversations are usually narrow and session-shaped. Niccolo is designed to maintain longitudinal context: relationships, episodes, beliefs, corrections, role changes, unresolved questions and prior interpretations can remain available as structured history.
 
-Names, handles, email addresses, roles and references do not always map cleanly to one human.
+## Evidence is not the same thing as inference
 
-Two records may later prove to be the same person. One record may have incorrectly merged two people. A nickname may identify different actors in different contexts.
+Niccolo distinguishes what was observed, what somebody claimed, what was inferred and what was concluded for a particular purpose. A statement repeated by twenty people is not automatically twenty independent pieces of evidence if all twenty learned it from the same source.
 
-Identity resolution is therefore not treated as an irreversible import-time decision. Merge, split and correction remain possible without rewriting history as if the mistake never happened.
+## Contradictions are preserved
 
-### Human memory and machine archives are different things
+Human organizations routinely contain mutually incompatible accounts of the same event. Niccolo does not need to flatten them prematurely into one neat version. It can preserve disagreement, attribution and uncertainty while still helping a user reason about what to do next.
 
-A seven-year-old email can exist in an archive even though nobody currently remembers it.
+## Multiple explanations can coexist
 
-A person can vividly remember an event whose original source has disappeared.
+Silence after a meeting might mean disagreement, caution, overload, political risk, lack of authority, a private objection, or nothing significant at all. Niccolo can maintain competing explanations and update them as evidence arrives rather than forcing an early binary judgment.
 
-An old insult can remain salient to one participant and utterly forgotten by another.
+## Counterevidence matters
 
-A newly rediscovered document can change Duhme's historical evidence without retroactively changing what any human knew, noticed or remembered at the time.
+Niccolo is designed to look for evidence that could weaken an attractive explanation. It also records what could not be searched or was unavailable. "We found no contradiction" is therefore not silently converted into "no contradiction exists."
 
-This distinction matters for conflict, trust, negotiation, reputation, gratitude and nearly every long-running relationship.
+## Human meaning depends on relationships and culture
 
-### Missing evidence is not an empty cell
+The same phrase can be friendly, threatening, deferential, sarcastic or routine depending on speaker, audience, culture, history and situation. Niccolo treats those contextual layers as part of the reasoning problem rather than noise to sanitize away.
 
-Duhme distinguishes at least three cases:
+## Corrections propagate
 
-1. nothing was observed;
-2. there is evidence that nothing happened;
-3. an absence is itself unusual relative to a known baseline.
+When an important fact or interpretation changes, the goal is not merely to append a note. Dependent conclusions can be reevaluated. A correction can therefore change the current view of a relationship, a stakeholder map or a prior hypothesis.
 
-A missing meeting recording does not prove nothing important occurred.
+# Human-analysis capabilities
 
-No email or Teams traffic does not prove there was no phone call, private message or face-to-face conversation.
+Niccolo's human-analysis capabilities are intended to support disciplined interpretation, not deterministic profiling.
 
-At the same time, absence can become evidence when the baseline is strong enough. If a reviewer participates in every relevant decision for two years and then unexpectedly disappears from one high-stakes decision trail, that deviation may matter.
+## Relationships and relationship history
 
-### The present and the past cannot be mixed casually
+Niccolo can help identify how a relationship appears to be changing over time: cooperation, strain, avoidance, trust recovery, increasing dependence, rivalry, alignment, distance or uncertainty. It can connect those changes to relevant episodes rather than reducing the relationship to one static label.
 
-Human reasoning is temporal.
+## Informal influence and situational leverage
 
-A conclusion that was defensible on Monday may become stale on Friday. A later correction can invalidate a current interpretation without erasing the fact that the earlier interpretation existed. Historical reconstruction uses what belonged to that historical frame rather than silently importing facts learned much later.
+Formal hierarchy is only one form of influence. Niccolo can help reason about who can enable, block, delay, persuade or mobilize others in a specific situation. It can distinguish formal authority from practical influence, perceived influence and reputation.
 
-Duhme therefore treats "what appears true now" and "what could reasonably have been concluded then" as different questions.
+## Beliefs about beliefs
 
-This is especially important in live interactions and post-event analysis. Hindsight does not rewrite what was knowable at the time.
+Human decisions often depend on what people think other people know, want or will do. Niccolo can represent actor-relative interpretations such as:
 
-### Corrections have consequences
+- Alice appears to believe Bob no longer supports the project;
+- Bob may think the CFO has already decided;
+- Carol seems to expect that raising the issue publicly will damage her position.
 
-If a user corrects an identity, relationship, event interpretation or factual claim, the correction changes the reasoning graph rather than living as a cosmetic note beside it.
+These are explicitly hypotheses or attributed beliefs, not objective facts merely because the system can express them.
 
-The correction can affect downstream hypotheses, findings, summaries and future retrieval.
+## Motivations and human mechanisms
 
-At the same time, correction is not historical erasure. Duhme preserves that an earlier interpretation existed, when appropriate, while changing what remains usable as current truth.
+Where appropriate, Niccolo can consider candidate mechanisms such as status threat, fear, resentment, face-saving, cognitive dissonance, loyalty, affection, gratitude, reciprocity, curiosity, belonging pressure, repair motivation or intrinsic commitment.
 
-### Deletion changes what can still be known
+The purpose is explanatory breadth. A behavior that looks hostile may have several plausible causes. A behavior that looks generous may also have several plausible causes. Niccolo is designed to preserve alternatives until the evidence justifies narrowing them.
 
-Privacy deletion is not merely a storage operation.
+## Coalitions, factions and coordination
 
-If a conclusion materially depended on evidence that is no longer available for use, the epistemic state changes. The system cannot continue presenting the old conclusion as if the deleted material had never been part of its support.
+In organizational or account analysis, repeated alignment among several actors may suggest coordination, shared incentives, common information or merely coincidental agreement. Niccolo can treat coalition or faction structure as a hypothesis and distinguish it from the raw observations that prompted it.
 
-Deletion can therefore create narrower conclusions, explicit missing coverage, reduced confidence, or unavailability where a claim cannot be responsibly reconstructed from what remains.
+## Communication and likely interpretation
 
-### Cultural knowledge is scoped, not universal
+Niccolo can help reason about how a message is likely to land with a particular audience given the relationship, history, local communication style and cultural context. It can also surface materially different interpretations before a consequential communication is sent.
 
-Culture is not a nationality lookup table.
+## Episodes and turning points
 
-Meaning can vary by geography, language, profession, class, subculture, age, historical period, relationship, domain and observer group.
+A relationship or account is often easier to understand as a sequence of episodes: a failed rollout, a public disagreement, a rescue, a promotion, a reorganization, a betrayal, a successful negotiation. Niccolo can organize such episodes and reason about what changed afterward.
 
-Different groups can interpret the same symbol in opposite ways. An expert source can be prestigious but irrelevant to the local population being discussed. A phrase that is rude between strangers can be affectionate between old friends.
+## Missingness and uncertainty
 
-Duhme therefore treats cultural evidence as scoped and disputable. Population-level patterns can generate candidate interpretations; they do not replace person-specific evidence.
+If key people, channels or time periods are unavailable, Niccolo can represent that as a limitation. It should not conclude that a coalition, conflict or objection does not exist merely because the evidence that could reveal it is missing.
 
-### Language competence is not human competence
+# Applications
 
-Messy language can coexist with deep technical, professional or social competence.
+Niccolo is a substrate rather than a single vertical application. Different products can expose different jobs while relying on the same underlying human-context reasoning.
 
-People mix languages, swear, omit subjects, speak in fragments, use private euphemisms, produce damaged transcripts and shift register by audience.
+# Corporate and organizational psychology
 
-Duhme separates linguistic polish from inferred competence.
+A strong use case for Niccolo is **organizational psychology and evidence-informed organizational consulting**.
 
-Sanitizing rough language too early can destroy evidence about humor, hierarchy, affiliation, anger, intimacy or local meaning. Source expression therefore remains distinct from later audience-safe rendering.
+An organizational psychologist is often asked to understand situations in which the formal description of the company is inadequate: a team that suddenly stopped cooperating, a respected manager who is losing credibility, conflict after a reorganization, perceived unfairness, social isolation, competing narratives about a leader, or a merger in which the official integration plan bears little resemblance to the lived organization.
 
-### Hard application state and fuzzy human reasoning are different kinds of truth
+Traditional inputs may include interviews, surveys, meeting notes, emails, collaboration records, project history, organizational charts and consultant observations. The difficulty is not merely collecting them. It is keeping track of who said what, which accounts are independent, which events preceded which changes, what each group appears to believe, and which explanations remain speculative.
 
-A CRM can know:
+A Niccolo-enabled organizational-psychology workflow could help a practitioner:
 
-```text
-approval_status = PENDING
-```
+- reconstruct major episodes and turning points;
+- distinguish formal structure from informal influence;
+- map trust fractures and trust repair;
+- compare how different groups interpret the same reorganization;
+- identify recurring communication mismatches;
+- surface perceived fairness or legitimacy concerns;
+- separate observable behavior from hypotheses about motive;
+- compare competing explanations for disengagement or conflict;
+- search for evidence that challenges the currently favored explanation;
+- prepare a pre-session dossier for interviews or interventions;
+- preserve uncertainty when important voices or periods are missing.
 
-Duhme may reason:
+For example, assume an apparently high-performing division experiences rising attrition after a new executive arrives. One explanation is that the executive is simply demanding. Another is that middle managers believe decisions are predetermined and have stopped speaking candidly. A third is that the real problem predates the executive but became visible during the reorganization. Niccolo can help maintain these explanations against the evidence, show what supports or weakens each one, and identify what additional interviews or records would be most informative.
 
-```text
-the approver appears increasingly likely to reject unless the framing changes
-```
+The system should **not** declare that an employee has a psychiatric condition, personality disorder or hidden motive. In professional deployments, policy can restrict which kinds of interpersonal hypotheses are computed or disclosed. Niccolo supports the psychologist's reasoning; it does not replace professional judgment.
 
-Those statements belong to different layers.
+# CRM and strategic account intelligence
 
-The hypothesis does not silently mutate the deterministic application state. Conversely, deterministic state does not block reasoning about the human dynamics surrounding it.
+A CRM records the commercial process. Niccolo can model the **human system around the process**.
 
-### Attention is a separate problem from reasoning
+For a complex enterprise account, Niccolo can help answer questions such as:
 
-A system may notice something important without interrupting anyone.
+- Who are the formal decision makers, and who appears to influence them informally?
+- Who can quietly block the deal?
+- Which stakeholder has become more or less supportive over time?
+- What changed after the last executive meeting?
+- Are two objections independent, or are they spreading from one source?
+- Which stakeholder is trusted by which other stakeholder?
+- Is a supportive statement likely to reflect commitment, diplomacy or uncertainty?
+- Which earlier interaction is most relevant before the next meeting?
+- What are the plausible reactions if we change price, scope, timing or sponsor?
 
-The same finding can be:
+This is particularly useful for long sales cycles in which personnel changes, internal politics and accumulated relationship history matter as much as product fit.
 
-- stored only;
-- included in a later summary;
-- shown on a dashboard;
-- surfaced at the next natural pause;
-- escalated immediately.
+A Niccolo-powered account view might produce a stakeholder map, a timeline of turning points, a summary of competing interpretations, a list of unresolved risks and a "what changed?" briefing before a meeting. The CRM continues to own contacts, opportunities, pipeline and forecasting.
 
-Support strength, consequence, urgency, reversibility and audience all matter.
+# Executive coaching and stakeholder reflection
 
-Reasoning relevance and delivery urgency are intentionally separate.
+Executives rarely operate only through formal authority. They depend on trust, credibility, alliances, perceived intent and the way their actions are interpreted by different audiences.
 
-### Live reasoning creates hindsight traps
+A Niccolo-enabled coaching product can help reconstruct consequential interactions and ask better questions:
 
-During a negotiation, Duhme may hold a medium-confidence concern that later turns out to have been correct.
+- Which stakeholders appear to interpret the executive differently?
+- What event may have changed the relationship?
+- Is a recurring conflict about substance, status, process or communication style?
+- Which explanation is supported, and which is merely plausible?
+- What would the situation look like under an alternative interpretation?
+- How might a proposed message land with each audience?
 
-If the configured interruption threshold was higher, no warning may have been emitted.
+The value is not automated judgment of the executive. It is a better evidence-grounded reflection surface for the executive and coach.
 
-When the feared event later occurs, the architecture preserves:
+# Conflict mediation and organizational alignment
 
-- what evidence existed beforehand;
-- which hypotheses existed beforehand;
-- how strong they were;
-- what counterevidence remained;
-- why the system did or did not surface them.
+In conflict, each participant commonly possesses a coherent story that is incompatible with somebody else's coherent story.
 
-The later outcome is new evidence. It is not permission to rewrite the earlier state into "the answer was obvious all along."
+A mediation-oriented Niccolo application can accept multiple accounts and distinguish:
 
-### Duhme can become part of the system it observes
+- facts that materially overlap across sources;
+- statements attributed to particular participants;
+- disputed interpretations;
+- unresolved ambiguity;
+- events whose meaning changed depending on the assumed context;
+- candidate explanations that fit more than one side's evidence.
 
-If Duhme advises a user to say something, warns a manager, reframes a negotiation, or mediates between two people, subsequent behavior is no longer independent evidence from an untouched environment.
+It can present this structure without forcing a winner just to make the report tidy. That is useful in workplace mediation, partnership disputes, post-incident analysis and difficult cross-functional programs.
 
-The intervention may have changed the outcome.
+# M&A integration and organizational change
 
-This creates a reflexive reasoning problem: Duhme reasons about its own influence instead of treating the changed world as independent confirmation of its prior belief.
+Mergers, acquisitions and reorganizations generate exactly the kind of context ordinary systems lose: historical loyalties, threatened identities, informal gatekeepers, legacy norms, competing narratives and rapidly changing expectations.
 
-### Strong models remain replaceable components
+Niccolo can support integration teams by maintaining an evidence-grounded picture of:
 
-Duhme uses powerful language/reasoning models where fuzzy semantic work is useful, but canonical memory and reasoning structure belong to Duhme rather than to a provider conversation.
+- important informal networks;
+- areas of trust or distrust between legacy groups;
+- contradictory interpretations of leadership decisions;
+- key people whose departure would remove social or operational glue;
+- recurring friction across functions;
+- changes in sentiment that have identifiable episodes behind them;
+- unresolved questions requiring additional evidence rather than premature conclusions.
 
-Different models can be useful for different workloads. A model can improve, regress, disappear, become too expensive, or behave differently under the same API shape.
+# Cultural and communication mediation
 
-The architecture therefore treats external models as replaceable reasoning components rather than as the durable owner of the human world.
+Literal translation can preserve words while destroying social meaning.
 
----
+Niccolo can support communication across cultures, professional communities, generations, dialects and levels of formality by reasoning about the **social function** of an utterance, not merely its dictionary meaning.
 
-# Six use cases that stress the same architecture
+A mediator built on Niccolo might preserve an original culturally meaningful expression, add a compact explanation, and offer an alternative that preserves the speaker's commercial or interpersonal intent without accidentally changing the social signal.
 
-The following scenarios are deliberately different. The point is not to create six separate products. The point is to show whether one underlying human-context architecture survives very different kinds of human reality.
+This is not a mandate to sanitize language. Profanity, slang, abruptness, humor and local phrasing can themselves be evidence about relationship and intent.
 
----
+# Consulting and investigation over messy enterprise evidence
 
-## UC-01 — Human expression, personal context and cross-cultural mediation
+Consultants and internal analysts often begin with an unattractive reality: exported chats, email threads, meeting notes, PDFs, spreadsheets, interview notes, a rough organizational chart and a client who says, "Tell me what is going on."
 
-The problem is not simply translation.
+Niccolo is designed for that kind of evidence bundle.
 
-A person's social act can disappear even when every word is translated correctly.
+A useful first interaction should not require the analyst to manually create an ontology. Niccolo can begin with provisional interpretation, identify actors and episodes, surface important ambiguities and produce recognizable artifacts while deeper processing continues.
 
-Two participants may differ in language, register, hierarchy expectations, humor, taboo, directness, negotiation conventions, professional culture, regional assumptions and relationship history. The same sentence can therefore be lexically accurate and socially wrong.
+This creates a useful comparison between two starting conditions:
 
-Duhme treats mediation as a chain in which the source expression remains preserved while several interpretations can coexist:
+1. **Minimal explanation:** give Niccolo the evidence and ask what it can infer.
+2. **Explained context:** add the organizational chart, known changes and expert background.
 
-```text
-source expression
-    ↓
-literal / semantic meaning
-    ↓
-relationship + history + personal lexicon
-    ↓
-scoped cultural evidence
-    ↓
-candidate pragmatic / social acts
-    ↓
-target rendering or explanation
-    ↓
-recipient reaction
-    ↓
-new evidence for later reasoning
-```
+The difference between the two is informative. It shows what the system recovered from evidence, what required human context and where uncertainty remains.
 
-### Messy language is still meaningful language
+# People analytics and HR applications
 
-A person may say:
+Niccolo can contribute to HR and people-analytics products, but this area requires careful product policy.
 
-> "yeah he did that shit again, same thing from before deploy"
+Good uses include organizational alignment, communication friction, team-cohesion analysis, change-management support, mediation, evidence organization and preparation for human review.
 
-The useful questions are not "Is this grammatical?" or "Should this be rewritten into polished business English?"
+Niccolo should not become a hidden automated employee-ranking machine. A professional deployment can prohibit particular sensitive inference classes, purposes or disclosures before they enter reasoning - not merely hide them after computation.
 
-The useful questions are:
+The public-facing surface can therefore emphasize observable coordination, commitments, dependencies, communication patterns and explicitly supported interpretations while reserving deeper analytical modes for authorized professional use.
 
-- Who is "he" likely to refer to in this relationship/project context?
-- What recurring episode does "that shit" point back to?
-- Does "again" activate a known pattern?
-- Is the profanity hostile, humorous, affiliative or simply habitual?
-- Would the same wording be appropriate for the intended audience?
+# What Niccolo produces
 
-Long-lived context can make fragmentary language precise without pretending ambiguity has disappeared.
+Niccolo does not need to expose its internal reasoning structures to ordinary users. It can project them into familiar work products such as:
 
-### Source expression survives transformation
+- stakeholder and influence maps;
+- relationship-history summaries;
+- episode and turning-point timelines;
+- pre-meeting or pre-session dossiers;
+- "what changed?" briefs;
+- disagreement and divergence views;
+- deal-at-risk or post-mortem views;
+- conflict maps that separate overlap from disputed attribution;
+- alternative-scenario or "what if" comparisons;
+- questions whose answers would most reduce current uncertainty.
 
-Translation, normalization, sanitization and audience adaptation are derivative representations.
+The visualization is not the truth. It is a user-facing projection of evidence, interpretation and uncertainty.
 
-They do not replace the original.
+# Why a foundation model alone is not Niccolo
 
-A joke, insult, honorific, code-switch, rough phrase or silence marker may carry information that vanishes if normalized too early.
+Niccolo can use strong AI foundation models and LLMs - including, where appropriate, models from OpenAI, Anthropic, Google or other providers - as reasoning engines, but the model is replaceable. The durable value lies in what surrounds the model. A raw call to GPT, Claude or Gemini is not, by itself, Niccolo.
 
-This matters because later evidence may change how the original expression is interpreted.
+A foundation model by itself does not automatically provide a governed, longitudinal human-context system with:
 
-### Cultural mediation is about social acts
+- stable identity and relationship history;
+- explicit source provenance;
+- separation of claims, observations, hypotheses and findings;
+- evidence-independence tracking;
+- contradiction and counterevidence handling;
+- actor-relative beliefs;
+- temporal scope;
+- user corrections that propagate;
+- permission and disclosure boundaries;
+- controlled reuse of sensitive context;
+- durable alternative reasoning branches;
+- explicit missing-evidence and coverage state.
 
-A literal translation approximates:
+A sophisticated user can recreate fragments of this behavior through ChatGPT, Claude, Gemini or another LLM using careful prompts and manual bookkeeping. Niccolo's purpose is to make the discipline persistent, repeatable, governed and available to ordinary users and applications.
 
-```text
-words in language A
-    →
-words in language B
-```
+# Integration philosophy
 
-Cross-cultural mediation has to consider more:
+Niccolo is designed to work **with** existing software.
 
-```text
-semantic content
-+ speech act
-+ relationship
-+ hierarchy / status relation
-+ emotional force
-+ humor
-+ taboo level
-+ local idiom
-+ audience
-+ cultural references
-+ intended social effect
-+ uncertainty
-    →
-rendering / explanation for the target participant
-```
+A CRM should remain a CRM. A collaboration platform should remain a collaboration platform. An HR system should remain an HR system. A consultant should remain responsible for the consulting judgment.
 
-A commercially firm refusal, for example, can carry no personal offense, mild irritation, deliberate status signaling, face-saving, genuine humiliation or strategic theater. The wording alone may not decide which one is intended.
+Niccolo can connect to permitted sources, accept artifact drops, expose APIs, and return human-context intelligence to the system or professional that owns the business workflow.
 
-### Population evidence cannot overrule the relationship
+This makes it possible to build focused products without forking a new reasoning engine for every vertical. A strategic-account application, an organizational-psychology workbench and an executive-coaching tool can present very different user experiences while sharing the same disciplined substrate underneath.
 
-A cultural prior can suggest candidate interpretations.
+# Epistemic discipline and safeguards
 
-A well-established relationship can outweigh it.
+Human analysis becomes dangerous when plausible interpretation is presented as certain fact. Niccolo is designed around the opposite principle.
 
-A phrase considered rude between strangers may be affectionate between long-time collaborators. A direct refusal may be ordinary inside one engineering team. Two people may develop a private vocabulary that no population-level cultural rule captures.
+## Observation, claim, hypothesis and finding are different
 
-Duhme therefore combines scoped cultural evidence with relationship history, personal lexicon, previous misunderstandings, prior confirmed meanings and audience expectations.
+"The meeting ended at 4:12 PM," "Alice says Bob opposed the plan," and "Bob opposed the plan because he feared loss of status" are not equivalent statements. Niccolo can preserve the distinctions instead of flattening them into one text summary.
 
-### Consequential ambiguity can be surfaced instead of guessed away
+## Confidence, credibility and authority are different
 
-Suppose an artisan rejects a buyer's counteroffer.
+A highly authorized executive can still be wrong. A low-status source can still provide strong evidence. A model can be confident about a poor inference. Niccolo keeps these concepts separate rather than treating one generic score as truth.
 
-There are at least two materially different possibilities:
+## Human mechanisms remain hypotheses
 
-```text
-A. "I am holding the price; no offense intended."
+Psychological plausibility is not proof. Niccolo can use human-science concepts to generate explanations while retaining alternatives and confounds.
 
-B. "I am holding the price, and I want them to understand
-   that the counteroffer offended me."
-```
+## Sensitive analysis is purpose- and permission-bound
 
-The commercial position is the same. The social act is not.
+Being able to store or access a source does not automatically mean every person may be analyzed in every way or every conclusion may be disclosed to every audience. Professional deployments can impose tighter policy.
 
-When the distinction matters, the system can make the ambiguity explicit rather than burying it under fluent prose.
+## Missing evidence stays visible
 
-### Preserve + bridge
+If relevant evidence has been erased, withheld, unavailable or never collected, Niccolo can constrain the claims it makes. Missing evidence is not silently converted into evidence of absence.
 
-Sometimes the right output is not to replace a cultural object but to preserve it and explain it.
+## Corrections matter
 
-Possible forms include:
+When users correct identity, context, interpretation or evidence, the correction should affect dependent reasoning instead of merely becoming another note at the bottom of the record.
 
-- literal rendering plus compact gloss;
-- original phrase plus target-culture explanation;
-- closest social equivalent;
-- pragmatic rendering plus preserved source;
-- a combination appropriate to the relationship.
+# Limits
 
-The goal is not to flatten both parties into generic international corporate language.
+Niccolo's usefulness depends on the quality, breadth and legitimacy of the evidence available to it.
 
-It is to help the intended meaning survive the crossing.
+It can be wrong. It can inherit bias from sources. People can lie, joke, misremember, posture or strategically omit information. Organizations can produce many apparently independent records that all descend from one mistaken story. Important conversations may occur in channels Niccolo cannot see. A cultural pattern that is useful at group level may fail completely for one individual.
 
-### Private context helps interpretation without becoming disclosure
+For these reasons, Niccolo should be judged not by whether it always produces a confident answer, but by whether it:
 
-Suppose Duhme knows privately that a speaker is under unusual pressure to prove competence.
+- distinguishes evidence from interpretation;
+- exposes uncertainty and conflicting accounts;
+- finds relevant context ordinary systems miss;
+- proposes useful alternative explanations;
+- updates when corrected;
+- helps a human or application make a better-grounded decision.
 
-That context may help avoid misreading emphatic language as arrogance.
+# The product category
 
-It does **not** automatically authorize telling the recipient:
+Niccolo does not fit neatly into one familiar software category.
 
-> "They sound aggressive because they are insecure."
+It can look like sales intelligence inside a CRM, organizational analysis inside a consulting workbench, stakeholder reflection inside executive coaching, cultural mediation inside a communication product, or relationship intelligence inside a custom enterprise application.
 
-Interpretive usefulness and disclosure permission are separate.
+Underneath those surfaces is the same idea:
 
-### Recipient reaction becomes evidence, not verdict
+> **Software should be able to maintain an evidence-grounded, revisable model of human context instead of treating every conversation as an isolated prompt.**
 
-Suppose the system expects a rendering to communicate firm disagreement without contempt, but the recipient reacts as if personally insulted.
-
-Several things may now deserve re-examination:
-
-- the inferred intent;
-- the chosen rendering;
-- the relationship model;
-- the cultural evidence;
-- the model of the recipient;
-- whether the reaction itself was strategic or sincere.
-
-The correct conclusion is not automatically "the recipient misunderstood," nor automatically "the cultural model was wrong."
-
-The reaction is new evidence.
-
-### Repeated mediation can create shared culture
-
-Cross-cultural relationships are not static.
-
-A phrase that needs explanation in the first interaction may become shared vocabulary by the fifth. The participants can gradually learn one another's humor, status cues and expectations.
-
-The mediation layer can therefore become lighter as the relationship itself becomes richer.
-
-The aim is not permanent dependency on translation. It is progressively better mutual legibility without erasing either person's style.
-
----
-
-## UC-02 — Longitudinal organizations, relationships and unofficial power
-
-Formal organization charts describe only part of an organization.
-
-Actual influence can depend on trust, sponsorship, gatekeeping, reputation, scarce knowledge, procedural control, coalition behavior, personal history, obligation and perceived capability.
-
-Duhme treats the unofficial organization as a changing graph rather than as a collection of personality labels.
-
-### Formal title and practical leverage are different
-
-A person with little formal authority may still be the one everyone checks before committing.
-
-A nominal decision-maker may routinely defer to someone else.
-
-A manager may control information rather than decisions. A senior engineer may carry disproportionate influence because nobody else understands a critical system. A customer contact may appear weak in the CRM but privately control access to the economic buyer.
-
-Useful questions therefore include:
-
-- Who can actually change an outcome?
-- Who can delay it?
-- Who is consulted before a decision becomes real?
-- Which relationships matter only in certain domains?
-- Which apparent coalitions persist across episodes?
-- Which ones are temporary?
-
-### Socially ugly communication can mean several things
-
-A team may use insults, profanity and mean jokes constantly.
-
-A shallow sentiment classifier can label the team toxic.
-
-The same evidence may instead fit:
-
-- ritualized teasing among close colleagues;
-- genuine hostility;
-- strong in-group cohesion;
-- exclusion of one outsider;
-- cohesion partly built around hostility to another person;
-- different meanings depending on audience and episode.
-
-Duhme preserves the competing explanations until local evidence discriminates among them.
-
-### Behavioral search is episode search, not keyword search
-
-Consider:
-
-> "Find the times Roberto got defensive when deadlines slipped."
-
-The relevant episodes may not contain the word "defensive."
-
-The pattern may involve abrupt topic changes, public blame, unusual escalation, refusal to acknowledge an earlier commitment, or other behavior that only becomes comparable in context.
-
-A useful answer therefore distinguishes:
-
-- direct evidence;
-- claims by other actors;
-- inferred similarity;
-- repeated reports with a shared origin;
-- missing channels;
-- why each episode matched;
-- prior corrections or rejected interpretations.
-
-The result remains a revisable behavioral pattern, not a permanent personality diagnosis.
-
-### Several explanatory branches can coexist
-
-A user may strongly believe:
-
-> "Alice is trying to push Roberto out."
-
-Duhme need not either obediently adopt the premise or stubbornly reject the entire line of inquiry.
-
-It can preserve one branch that explores the user's premise deeply while maintaining another branch that does not assume it.
-
-Different branches can retrieve different evidence, produce different predictions, and later be compared against outcomes.
-
-This allows ambitious exploration without turning one worldview into canonical truth.
-
-### Apparently minor events can become explosive later
-
-A technically ordinary email in January may matter little at the time.
-
-Nine months later, during a promotion rivalry, one participant may still remember it as a public challenge.
-
-A new message saying:
-
-> "as previously discussed"
-
-to a broad audience can reactivate that memory and become professionally costly despite containing no obviously hostile language.
-
-The risk mechanism depends on human memory, relationship history and current stakes rather than on textual toxicity.
-
-The reverse also occurs. Remembered praise, costly protection, successful reciprocity or a previous act of trust can make a later request safer than its literal wording suggests.
-
-### Positive obligations matter too
-
-Suppose a senior engineer publicly takes responsibility for an outage and materially protects a junior colleague.
-
-Months later, the junior quietly warns the senior engineer about a hostile review, refuses to amplify an attack, shares useful information and takes some career risk defending one of the senior engineer's decisions.
-
-Several explanations remain possible:
-
-- gratitude;
-- reciprocity or felt debt;
-- loyalty;
-- trust earned by costly support;
-- strategic alliance;
-- shared enemy;
-- career calculation;
-- coincidence.
-
-The architecture represents gratitude and reciprocal obligation without promoting them just because they make a compelling story.
-
-### Coalitions can be overlapping, temporary and leaderless
-
-Organizational factions do not always behave like political parties.
-
-Alice and Bob may usually align on promotion questions. Carol may align with them only on budget questions. Dana may hold unusual influence without belonging cleanly to either group. Similar behavior can occur without explicit coordination.
-
-Coalitions therefore need temporal and domain scope.
-
-Similarity is not proof of conspiracy.
-
-### Perceived power can become real power
-
-Suppose an unverified rumor says the CTO backs Alice.
-
-If enough people believe it, they may start routing decisions through Alice.
-
-Her practical leverage can increase before the sponsorship claim is proven.
-
-The rumor can remain weak evidence about the CTO while becoming strong evidence about the organization's behavior.
-
-### Observation gaps stay visible
-
-A missing meeting, deleted private channel, undocumented hallway conversation or unrecorded call is not silently filled in.
-
-Likewise, a person going quiet can mean many things.
-
-Absence becomes evidence only relative to a meaningful baseline.
-
-The distinction between "nothing observed" and "evidence nothing happened" remains explicit.
-
-### Nobody is the privileged narrator of organizational truth
-
-Executives, managers, individual contributors, HR, salespeople, customers and the user all have partial views.
-
-Formal authority can make someone authoritative about a policy or official decision without making that person infallible about motive, memory or informal relationships.
-
-The organization remains multi-perspectival.
-
----
-
-## UC-03 — Live situational reasoning in meetings, negotiations and operational interactions
-
-Longitudinal reasoning and live reasoning have very different time budgets.
-
-A deep dossier can take its time assembling months or years of context.
-
-A live meeting cannot.
-
-The architecture therefore treats the two as complementary:
-
-```text
-deep longitudinal context
-        +
-timestamped live evidence
-        ↓
-bounded situational reasoning
-        ↓
-policy-controlled delivery
-        ↓
-post-event reconstruction
-```
-
-The point is not one specific environment. The same problem appears in executive meetings, sales negotiations, project reviews, incident rooms, partnership discussions, customer escalations and other authorized interactions.
-
-### The live path builds on history rather than recomputing it
-
-Before an interaction, relevant context can include:
-
-- prior messages and documents;
-- known roles;
-- relationship history;
-- earlier episodes;
-- CRM or workflow context;
-- user-supplied knowledge;
-- unresolved hypotheses;
-- cultural or organizational context;
-- known source gaps.
-
-During the interaction, live reasoning retrieves relevant slices and updates the situational model.
-
-It does not need to rediscover the entire history after every utterance.
-
-### External systems can observe; Duhme reasons over what they report
-
-A speech system may provide transcript segments and timestamps.
-
-A meeting system may provide attendance and join/leave events.
-
-A vision/event system may provide observable events.
-
-A CRM or incident system may provide current operational state.
-
-A human operator may correct attribution or add local meaning.
-
-Duhme keeps the observation level explicit.
-
-These are different:
-
-```text
-Observation:
-"Carol turns her head toward Dana before answering."
-
-Interpretation:
-"Carol seeks Dana's approval before answering."
-```
-
-The first can be direct evidence supplied by an observing system.
-
-The second is already an interpretation.
-
-Collapsing them destroys provenance.
-
-### Nonverbal evidence is not a motive detector
-
-A pause, gaze, interruption, posture change or vocal shift may fit several explanations.
-
-A participant looking toward another before answering could indicate deference, habit, uncertainty, coordination, distraction or nothing consequential.
-
-Historical pattern, timing, role structure and later evidence can alter the balance among explanations.
-
-No body-language event becomes a privileged truth channel.
-
-### Words remain first-class evidence
-
-Behavioral evidence does not automatically outrank explicit speech.
-
-A clear statement from an appropriately authoritative source can outweigh weeks of weak signals.
-
-Conversely, speech and behavior can conflict without either becoming automatically "the real truth."
-
-A person can sincerely support a launch while repeatedly raising delivery risk. A public statement can reflect role obligation. A person can change their mind.
-
-Conflict remains represented as conflict.
-
-### Live systems have blind spots
-
-Consider:
-
-```text
-14:10–14:19
-hallway break
-no transcript
-no authorized camera coverage
-two participants absent from the room
-```
-
-The correct representation is:
-
-```text
-UNOBSERVED INTERVAL
-```
-
-not:
-
-```text
-"They coordinated privately."
-```
-
-Later evidence can support a coordination hypothesis, but the gap itself remains a gap.
-
-The same principle applies to missing email, chat or calendar coverage.
-
-### Tactical state is derived, not sensor truth
-
-During a meeting, Duhme may hold temporary hypotheses such as:
-
-- the negotiation appears unstable;
-- Alice currently appears isolated on proposal X;
-- Bob and Carol currently appear aligned on delivery timing;
-- the customer group may be preparing an alternative.
-
-These are derived states with temporal scope and uncertainty.
-
-They are not equivalent to observed deterministic state.
-
-### Dynamic groups need dynamic representations
-
-Participants can align on one issue and oppose one another on another.
-
-One actor can coordinate informally without being a permanent leader. A coalition can form after new information and dissolve ten minutes later.
-
-Live reasoning therefore cannot stamp durable faction labels onto every temporary alignment.
-
-### Strategic behavior is ordinary
-
-People may tell partial truths, perform agreement, signal differently to different audiences, float trial balloons, exaggerate capability, avoid commitment or form temporary coalitions.
-
-The architecture treats these possibilities as competing explanations rather than as a universal presumption of manipulation.
-
-### Belief about power can change the room
-
-Suppose someone says:
-
-> "If this goes to the board, Maria will block it."
-
-Maria's actual intention may be unknown.
-
-Yet if participants immediately change behavior, Duhme can distinguish:
-
-```text
-Claim:
-Maria will block the proposal.
-Support: weak / unknown.
-
-Finding:
-Several participants appear to believe Maria can or will block it.
-Support: stronger.
-
-Operational relevance:
-High, because behavior is changing now.
-```
-
-Again, effect strength and truth strength are different.
-
-### Important does not always mean interrupt now
-
-During a live event, many observations can matter without deserving interruption.
-
-A finding can be:
-
-- stored;
-- included in a post-meeting reconstruction;
-- surfaced on a dashboard;
-- mentioned at a natural pause;
-- escalated immediately.
-
-The system can hold a meaningful hypothesis internally without forcing it into the user's attention.
-
-### The negotiation that later looks obvious
-
-Imagine a 90-minute enterprise renewal negotiation.
-
-Before the meeting, the longitudinal context contains:
-
-- eighteen months of account history;
-- email and collaboration evidence;
-- CRM opportunity history;
-- three earlier negotiation episodes;
-- known participant roles;
-- a prior conflict around delivery commitments;
-- unresolved questions about who actually controls final approval.
-
-During the first part of the meeting:
-
-- procurement repeatedly avoids discussing term length;
-- the technical sponsor stops defending the proposed scope;
-- several participants check one representative before answering;
-- a previously enthusiastic stakeholder becomes unusually quiet;
-- a direct question receives a procedural rather than substantive answer.
-
-None of those observations proves withdrawal.
-
-Together, against the historical baseline, they may support a hypothesis that the customer is preparing to abandon the compromise.
-
-Counterevidence may still remain:
-
-- procurement stays engaged;
-- nobody explicitly rejects the proposal;
-- the meeting continues;
-- practical delivery questions are still being asked.
-
-The concern can therefore be meaningful without crossing the configured threshold for interruption.
-
-Twenty minutes later, the customer walks away.
-
-A responsible post-event reconstruction preserves that the withdrawal hypothesis existed earlier, how strong it was, what opposed it, and why it was not surfaced.
-
-The later event strengthens the reconstruction. It does not rewrite the earlier uncertainty.
-
-### Outcome feedback without hindsight certainty
-
-After the event, domain experts can explain which signals mattered and which were noise.
-
-The system can use that feedback to revise future interpretation.
-
-But the fact that an outcome happened does not mean every earlier weak signal was secretly predictive.
-
-Post-event learning has to preserve what was knowable at the time.
-
----
-
-## UC-04 — Embedded business and application intelligence
-
-Many applications already own deterministic business state.
-
-A CRM owns accounts, contacts, opportunity stages and tasks.
-
-An ERP owns orders, inventory and financial state.
-
-A workflow system owns valid statuses and transitions.
-
-Duhme's role is not to replace those systems. It is to add revisable human-context reasoning around them.
-
-### CRM state and stakeholder reality are not the same thing
-
-A CRM may know that an opportunity is active and that Maria is the formal contact.
-
-It may know very little about:
-
-- who actually influences Maria;
-- which stakeholder is quietly blocking the deal;
-- who has become a trusted informal sponsor;
-- which past episode damaged the relationship;
-- which old promise is still being remembered;
-- which person appears powerful only because others believe they are powerful;
-- which apparent ally has changed position.
-
-Duhme can reason over those questions while the CRM remains the system of record for the deal.
-
-### "What materially changed?" is often more useful than a static profile
-
-Consider:
-
-> "What materially changed in the Acme account relationship during the last 90 days?"
-
-A useful answer is not merely the newest messages.
-
-It may identify:
-
-- turning-point episodes;
-- new or weakened relationships;
-- changes in who appears influential;
-- public/private divergence;
-- a previously weak hypothesis gaining support;
-- missing coverage that limits interpretation;
-- old history becoming newly relevant.
-
-The answer remains connected to evidence and alternatives rather than collapsing the account into a personality summary.
-
-### Deterministic state stays deterministic
-
-Suppose the host application says:
-
-```text
-approval_status = PENDING
-```
-
-Duhme may reason:
-
-```text
-the approver appears more likely to reject
-unless Finance changes the framing
-```
-
-That does not make the status `REJECTED`.
-
-The host application owns valid operational state and actions. Duhme owns contextual interpretation around the humans interacting with that state.
-
-### Boring operations remain boring
-
-Not every action needs a deep human analysis.
-
-> "Change quote quantity from 10 to 12."
-
-can remain a deterministic operation.
-
-> "Will changing the quantity now antagonize the buyer?"
-
-invokes human-context reasoning.
-
-The architecture does not turn ordinary application work into permanent epistemic ceremony.
-
-### Attention policy belongs to the embedding context
-
-One host application may want immediate alerts for a narrow class of events.
-
-Another may prefer a daily briefing.
-
-A third may show contextual cards only when a user opens an account.
-
-Duhme's job is to produce reasoned, scoped human-context intelligence. The host context determines how aggressively that intelligence is surfaced.
-
-### Enrichment, not product-category replacement
-
-The same pattern can apply to CRM, support, ERP, HR workflow, project management, account planning, incident systems and specialized vertical applications.
-
-Hard application state remains where it belongs.
-
-Duhme adds the human layer around it.
-
----
-
-## UC-05 — Cultural fields and FashionOS
-
-Culture is a difficult reasoning surface because meaning is distributed across aesthetics, geography, class, subculture, age, history, aspiration, commerce, production capability and deliberate signaling.
-
-Fashion makes that difficulty unusually visible.
-
-There is no single universal `Zeitgeist`.
-
-A Berlin humanities student, an English working-class consumer and a Vietnamese luxury buyer can inhabit overlapping but materially different cultural fields at the same historical moment.
-
-The same object can therefore carry different meanings without one interpretation being globally canonical.
-
-### Cultural meaning is scoped
-
-A cultural interpretation is stronger when its scope is explicit:
-
-- geography;
-- language;
-- time period;
-- cohort;
-- profession or domain;
-- observer group;
-- source quality;
-- controversy and variance.
-
-An artifact can be mainstream in one field, aspirational in another, ironic in a third, politically loaded in a fourth and largely meaningless in a fifth.
-
-Duhme preserves those differences rather than averaging them into fake neutrality.
-
-### Disagreement between experts is evidence
-
-Two strong sources can disagree because they study different populations, periods or methods.
-
-The architecture keeps source, population, scope and methodology visible.
-
-Prestige is not a substitute for relevance.
-
-A globally famous analysis may be less useful than a narrow local source for a specific social meaning.
-
-### Cultural priors can inform people-level reasoning without becoming stereotypes
-
-Population evidence can suggest candidate interpretations.
-
-It cannot substitute for what is known about a particular person and relationship.
-
-A luxury buyer can violate local norms. An artisan can deliberately play with a stereotype. A subculture can invert the meaning of a mainstream symbol.
-
-Duhme therefore treats cultural knowledge as a reasoning field, not as a shortcut from identity to behavior.
-
-### FashionOS as a proving surface
-
-A broader fashion network can involve:
-
-- designers;
-- artisans;
-- small producers;
-- buyers;
-- brands;
-- logistics partners;
-- retailers;
-- cultural interpreters;
-- trend evidence;
-- capability and supply constraints.
-
-The human-context problem is not simply "what is trending?"
-
-It includes:
-
-- which trend means what in which field;
-- which signals are local and which transfer;
-- which experts are biased toward one market;
-- which producer capabilities fit which buyer expectations;
-- which weakly connected participants may become useful collaborators;
-- where an apparently similar aesthetic carries opposite social meaning.
-
-A small producer in one country and a boutique buyer in another may be compatible even though neither appears in the other's conventional network.
-
-Duhme's reasoning layer can help expose that compatibility without requiring one central broker to own the relationship.
-
-### Cultural reasoning and mediation share the same substrate
-
-The broader cultural-field problem feeds directly into cross-cultural mediation.
-
-UC-05 asks:
-
-> What does this artifact, style, phrase or signal mean across several cultural fields?
-
-UC-01 asks:
-
-> What does it likely mean **here**, between these people, in this relationship, right now—and how can that meaning cross to the other participant without being flattened?
-
-The population field generates candidates.
-
-The relationship decides how much those candidates deserve to matter.
-
----
-
-## UC-06 — Fragmented enterprise evidence: the company gradually becomes legible
-
-Real companies do not possess clean institutional memory.
-
-They possess fragments.
-
-Email exists for some years but not others. Attachments are missing. Employees leave. Collaboration platforms have shorter retention windows. Channels disappear. Old departmental ZIP files appear on network drives. Org charts describe the present better than the past. Local backups survive after official systems are gone.
-
-The useful architecture is therefore not one that assumes a perfect corporate corpus.
-
-It is one that becomes useful while explicitly knowing what it does **not** have.
-
-### Two natural acquisition shapes
-
-Enterprise evidence tends to arrive in two broad forms.
-
-The first is bulk material:
-
-- folders and directory trees;
-- archives;
-- mailbox exports;
-- historical backups;
-- old project directories;
-- file shares;
-- object-store corpora;
-- whatever historical estate the customer can actually produce.
-
-The second is live or incremental sources:
-
-- email;
-- collaboration platforms;
-- document systems;
-- calendars;
-- issue trackers;
-- source-control systems;
-- CRM;
-- filesystems;
-- business applications;
-- customer-specific systems.
-
-Both are evidence acquisition paths into the same human/world model.
-
-Neither implies flattening a gigantic corpus into one prompt or one summary.
-
-### Institutional archive and human memory are different
-
-Suppose a seven-year-old email is recovered from an old archive.
-
-That changes the evidence available to Duhme.
-
-It does not mean any current employee remembers the message.
-
-Conversely, an employee may strongly remember a distorted version of an event whose original source no longer exists.
-
-Duhme therefore separates historical availability from plausible human exposure, attention and memory.
-
-This becomes crucial when old material resurfaces and suddenly affects a current dispute or relationship.
-
-### Incomplete history remains explicitly incomplete
-
-Suppose email is available for seven years but collaboration messages for only four.
-
-The correct conclusion is:
-
-```text
-No collaboration-platform evidence is available before the retention boundary.
-```
-
-not:
-
-```text
-Nobody discussed this subject there before that date.
-```
-
-The source gap itself becomes part of later reasoning.
-
-### Processing can be progressive
-
-A large evidence estate does not become fully understood at once.
-
-Files can be catalogued before they are deeply interpreted. Text can become searchable before all relationships and episodes are reconstructed. Some regions of the corpus can become useful while others remain coarse or unexplored.
-
-That matters because useful questions can begin before the entire organization is equally legible, without pretending otherwise.
-
-Later evidence can improve, narrow or overturn earlier answers.
-
-### Messages are evidence neighborhoods, not flat strings
-
-An email contains more than body text.
-
-It has:
-
-- sender;
-- recipients and audience;
-- time;
-- thread structure;
-- reply/forward relations;
-- subject and conversational context;
-- attachments;
-- reactions and later replies.
-
-Attachments are first-class artifacts rather than text pasted into the message.
-
-If Jane writes:
-
-> "Use this in the live environment."
-
-and attaches `release.zip`, the transmission itself becomes evidence.
-
-The archive may contain its own files, history and references.
-
-The social act of sending it and the contents of the archive are related but not identical things.
-
-### Claims inside messages remain claims
-
-Suppose Jane writes to Richard:
-
-> "Here's the JSON Mary sent me."
-
-The message metadata establishes that Jane sent Richard an attachment.
-
-Jane's sentence establishes a claim that Mary sent the same material to Jane earlier.
-
-If later evidence independently shows Mary sending that exact content to Jane, the claim gains support.
-
-Until then, the provenance distinction remains.
-
-### Exact-content identity and social history are different
-
-Three files named:
-
-```text
-Budget.xlsx
-FINAL_Budget.xlsx
-2027-final-really-final.xlsx
-```
-
-may contain exactly the same bytes.
-
-Recognizing exact identity avoids repeated content work.
-
-But the occurrences remain socially distinct:
-
-- Alice emailed it to Bob;
-- Carol uploaded it to a shared drive;
-- Bob attached it to an issue;
-- one copy appeared before a decision and another after it.
-
-The transmission history can matter more than the bytes.
-
-### Bundles carry meaning too
-
-One message may contain:
-
-```text
-memo.docx
-forecast.xlsx
-risk.pdf
-```
-
-The three artifacts can remain independently addressable while also being treated as one evidence bundle when the surrounding message says they collectively support a recommendation.
-
-Human meaning often exists at both levels.
-
-### Evidence can be nested like Russian dolls
-
-A realistic chain may look like:
-
-```text
-email
-  → attached archive
-      → release folder
-          → README
-              → link to collaboration thread
-                  → message
-                      → spreadsheet
-                          → reference to shared document
-```
-
-Flattening the entire chain into one summary destroys addresses, provenance and relationships that may become important later.
-
-Duhme treats the estate as an artifact/reference graph.
-
-### One decisive fragment can hide inside hours of noise
-
-A two-hour recording can contain ninety-nine minutes of trivial conversation and one short exchange that becomes important months later.
-
-Low apparent information density is not proof of irrelevance.
-
-The architecture preserves enough local addressability that a later event can make an old fragment newly material without pretending the earlier system knew its future importance.
-
-### Files that mention no people can still become human evidence
-
-Consider a log:
-
-```text
-PROD pipeline failed at T1 with signature L
-```
-
-Elsewhere, organizational evidence says:
-
-```text
-Jane owned PROD pipeline operations at T1
-```
-
-Source-control history says:
-
-```text
-signature L first appeared after change C
-Bob authored C
-```
-
-The graph now connects people, systems, events and artifacts.
-
-This supports questions such as:
-
-- Who was responsible for the affected system at the time?
-- When did the failure signature enter the history?
-- What communication occurred around the change?
-
-It does **not** prove:
-
-- Bob caused the outage;
-- Jane was negligent.
-
-Graph proximity is not causation.
-
-### Context mismatch can matter more than content
-
-The same exact `config.json` can be discussed for a development environment in one thread and later transmitted explicitly for live operational use.
-
-The bytes did not change.
-
-The human meaning did.
-
-Duhme therefore tracks not only content identity but occurrence, audience, purpose, timing and surrounding context.
-
-### Old evidence can become newly relevant
-
-A forgotten project folder may reveal that an issue believed to be new had a predecessor five years earlier.
-
-A recovered message may weaken a current narrative.
-
-A historical org chart may show that the person now blamed for a decision did not own the system at the time.
-
-A resurfaced document may explain why two people remember an episode so differently.
-
-The organization becomes gradually more legible as fragments accumulate.
-
-Legibility is not omniscience.
-
-### M&A makes the same problem more obvious
-
-When two companies merge, they bring different archives, vocabularies, undocumented practices, authority structures and cultural assumptions.
-
-Equivalent terms can mean different things.
-
-Two roles with the same title can carry different practical authority.
-
-Duplicated responsibilities can remain hidden because the organizations describe them differently.
-
-The same fragmented-evidence machinery can help preserve each side's provenance while identifying overlaps, contradictions, emerging relationships and translation problems between the two institutional cultures.
-
----
-
-# What ties the six scenarios together
-
-The six scenarios look different because the surface domains are different.
-
-Underneath them, the same architectural questions keep returning:
-
-- What was actually observed?
-- Who claimed what?
-- What came from the same source?
-- What is inference rather than evidence?
-- Which interpretations remain plausible?
-- What is missing?
-- What did each actor plausibly know or remember at that time?
-- Which relationships change the meaning?
-- Which cultural assumptions are scoped to this population or context?
-- What became stale?
-- What was corrected?
-- What changed after an intervention?
-- What is deterministic application state and what is fuzzy human interpretation?
-- Which conclusion can still be supported after evidence changes or disappears?
-
-Duhme treats these distinctions as durable structure rather than relying on a model to recreate them from scratch on every conversation.
-
-That is the core idea:
-
-> **Reason deeply about humans without pretending we are simple, static, fully observed, internally transparent, or reducible to the last prompt.**
-
----
-
-**Copyright 2026 Cambrian Radiation**
+That is the category Niccolo is trying to make useful.
